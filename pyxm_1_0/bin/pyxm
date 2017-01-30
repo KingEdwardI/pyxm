@@ -30,7 +30,7 @@ BASE_URL='http://ws.audioscrobbler.com'
 
 def main():
     """ Run the program session """
-    PYXM = str("""
+    PYXM = """
 ::::::::   :::        ::: :::       ::: ::::::       ::::::        @@@@@@@@@@@@@@
 :::   :::   :::      :::   :::     :::  ::: :::     ::: :::        @@@@@@@@@@@@@@
 ::      ::   :::    :::     :::   :::   :::  :::   :::  :::        @@          @@
@@ -40,11 +40,9 @@ def main():
 :::             ::::        :::   :::   :::             ::: @@@@@@@@@   @@@@@@@@@
 :::             ::::       :::     :::  :::             :::  @@@@@@@     @@@@@@@
 :::             ::::      :::       ::: :::             :::   @@@@        @@@@   
-    """)
+    """
     helpMenu = """ 
-Welcome to PyXm
-::::::::::::::: \n
-Commands: \n
+Commands:
     help, h: display this message and return to pyxm console
     turbo, T, zoom: will toggle turbo mode !!! This WILL cause serious system resource usage, use with caution !!!
     quiet, q, shh: will toggle quiet mode
@@ -61,6 +59,11 @@ Commands: \n
 """
 
     print PYXM
+    print """
+Welcome to PyXm
+:::::::::::::::
+Type 'help' for a list of commands
+"""
 
     argument_string = ' '.join(sys.argv[1:])
 
@@ -191,12 +194,15 @@ def search_uses_flags(argstring, *flags):
     
 
 def download_many(trackList, quiet, turbo):
-    urls = []
-    for track in trackList:
-        urls.append(get_single_video_link(track))
+    if not trackList:
+        print "No tracks Found"
+    else:
+        urls = []
+        for track in trackList:
+            urls.append(get_single_video_link(track))
 
-    for url in urls:
-        download_direct(url, quiet, turbo)
+        for url in urls:
+            download_direct(url, quiet, turbo)
 
 def tracks_from_artist(artist):
     """
@@ -232,8 +238,11 @@ def get_single_video_link(track):
     :rtype: unicode
     """
     found = search_videos(track)
-    title, video_link = found[0]
-    return video_link
+    try:
+        title, video_link = found[0]
+        return video_link
+    except IndexError:
+        return False
 
 def download_direct(url_path, quiet, turbo):
     """
