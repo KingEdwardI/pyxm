@@ -56,7 +56,6 @@ From anywhere in the command line (preferably a new folder) run `pyxm`. Currentl
 
 ## Running Tests
 
-Tests run with Pytest
 
 ## Authors
 * <b>Edward Vetter-Drake</b> - PyXm 
