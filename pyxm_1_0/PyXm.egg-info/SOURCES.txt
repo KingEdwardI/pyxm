@@ -1,0 +1,8 @@
+setup.py
+PyXm.egg-info/PKG-INFO
+PyXm.egg-info/SOURCES.txt
+PyXm.egg-info/dependency_links.txt
+PyXm.egg-info/not-zip-safe
+PyXm.egg-info/requires.txt
+PyXm.egg-info/top_level.txt
+bin/pyxm
