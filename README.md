@@ -4,12 +4,14 @@ Easily install music utilizing last.fm and youtube-dl
 
 ### Upcoming features
 
-* v1.1 : search functions
-* v1.2 : create directories
-* v1.3 : pandora tracklist search
-* v1.4 : soundcloud tracklist search
-* v1.5 : spotify tracklist search
+#### Version 1 : CLI
+* search functions
+* create directories
+* soundcloud tracklist search
+* spotify tracklist search
+* v1.5 : Pandora user search
 
+#### Versoin 2 : User Interface
 * v2.0 : user interface
 
 ## Getting Started
