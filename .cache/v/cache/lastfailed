@@ -1,8 +1,0 @@
-{
-  "bin/test.py::test_albums_by_artist": true, 
-  "bin/test.py::test_get_single_video_link": true, 
-  "bin/test.py::test_get_video_list": true, 
-  "bin/test.py::test_search_videos": true, 
-  "bin/test.py::test_tracks_by_album": true, 
-  "bin/test.py::test_tracks_from_artist": true
-}
