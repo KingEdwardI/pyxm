@@ -1,1 +1,5 @@
 .cache
+.egg
+build/
+dist/
+PyXm.egg-info/

@@ -12,6 +12,7 @@ elif [ "$(expr substr $(uname -s) 1 5)" == "Linux" ]; then
 else
     echo "Installer supports debian and mac only."
 fi
+
 pip install -r requirements.txt
-cd pyxm
-python super_installer.py
+cd pyxm_1_0
+python setup.py install
