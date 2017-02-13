@@ -1,7 +1,7 @@
 #!/usr/local/bin/python
 # PyXm - Download
 # Author : Edward Vetter-Drake
-# Version : 1.0
+# Version : 1.1
 from bs4 import BeautifulSoup
 import os
 import requests
@@ -44,7 +44,7 @@ def main():
     helpMenu = """ 
 Commands:
     help, h: display this message and return to pyxm console
-    turbo, T, zoom: will toggle turbo mode !!! This WILL cause serious system resource usage, use with caution !!!
+    turbo, zoom: will toggle turbo mode !!! This WILL cause serious system resource usage, use with caution !!!
     quiet, q, shh: will toggle quiet mode
     artist, a: enter an artist search line where you will be 
         prompted for an artist and it will download all 
@@ -52,7 +52,7 @@ Commands:
     album, l: enter an album search line where you will be
         prompted for an album and it will download all 
         tracks found for that album
-    track, s: enter a song search line where you will be 
+    track, t: enter a song search line where you will be 
         prompted for a song, which will create a list and 
         download when you exit the line 
     exit: will quit PyXm
@@ -62,6 +62,8 @@ Commands:
     print """
 Welcome to PyXm
 :::::::::::::::
+PyXm is a music downloader where you can search 
+for and download music using different queries.
 Type 'help' for a list of commands
 """
 
@@ -78,9 +80,9 @@ Type 'help' for a list of commands
             main_cli(quiet, turbo)
 
         elif cmd_case.lower() in ['artist', 'a']:
-            if turbo:
-                print 'Turbo is not allowed for artist search, turning off' # Seriously this will fuck shit up don't do it. 
-                turbo = False
+            #  if turbo:
+                #  print 'Turbo is not allowed for artist search, turning off' # Seriously this will fuck shit up don't do it. 
+                #  turbo = False
 
             try:
                 artist = raw_input('Search for an artist (^C to quit, ^B to return to menu): ')
@@ -88,12 +90,15 @@ Type 'help' for a list of commands
                 if artist in ['^B', '']:
                     main_cli(quiet, turbo)
 
+                print 'searching for tracks...' if not quiet else ''
                 trackList = tracks_from_artist(artist)
                 if not len(trackList):
                     print "No Tracks Found"
                     main_cli(quiet, turbo)
+                print 'downloading tracks...' if not quiet else ''
+                loading = True
                 download_many(trackList, quiet, False)
-                print 'Finished Downloading: ',trackList
+                print 'Finished Downloading: ', trackList if not quiet else ''
                 main_cli(quiet, turbo)
 
             except KeyboardInterrupt:
@@ -108,6 +113,7 @@ Type 'help' for a list of commands
                 if album in ['^B', ''] or artist in ['^B', '']:
                     main_cli(quiet, turbo)
 
+                print 'searching for tracks' if not quiet else ''
                 trackList = get_tracks_by_album(artist, album)
 
                 if not len(trackList):
@@ -115,23 +121,25 @@ Type 'help' for a list of commands
                     main_cli(quiet, turbo)
 
                 if turbo and not quiet:
-                    print 'turbo is on, please wait a moment before continuing and press `Enter` when the proccess finishes'
+                    print 'this will take a moment, please wait for the youtube-dl processes to appear on the screen and complete before continuing. '
                 download_many(trackList, quiet, turbo)
-                print 'Finished Downloading: ',trackList
+                print 'Finished Downloading: ', trackList if not quiet else ''
                 main_cli(quiet, turbo)
 
             except KeyboardInterrupt:
                 print '\nBye!'
                 sys.exit()
 
-        elif cmd_case.lower() in ['track', 's']:
+        elif cmd_case.lower() in ['track', 't']:
             try:
                 track = raw_input('Search for a track(^C to quit, ^B to return to menu): ')
 
                 if track in ['^B', '']:
                     main_cli(quiet, turbo)
 
+                print 'searching for track...' if not quiet else ''
                 trackUrl = get_single_video_link(track)
+                print 'downloading track...' if not quiet else ''
                 download_direct(trackUrl, quiet, turbo)
                 main_cli(quiet, turbo)
 
@@ -199,7 +207,9 @@ def download_many(trackList, quiet, turbo):
     else:
         urls = []
         for track in trackList:
-            urls.append(get_single_video_link(track))
+            tUrl = get_single_video_link(track)
+            if type(tUrl) == str and tUrl != '':
+                urls.append(tUrl)
 
         for url in urls:
             download_direct(url, quiet, turbo)
@@ -214,7 +224,7 @@ def tracks_from_artist(artist):
     for album in albums:
         albumTracks.append(get_tracks_by_album(artist, album))
     allTracks = [item for sublist in albumTracks for item in sublist]   
-    
+
     return allTracks
 
 def get_video_list(query):
@@ -238,11 +248,9 @@ def get_single_video_link(track):
     :rtype: unicode
     """
     found = search_videos(track)
-    try:
+    if found: 
         title, video_link = found[0]
         return video_link
-    except IndexError:
-        return False
 
 def download_direct(url_path, quiet, turbo):
     """
@@ -320,12 +328,17 @@ def get_albums_by_artist(artistQuery):
     artist = urllib.urlencode({ 'artist' : artistQuery })
     api_key = urllib.urlencode({ 'api_key' : API_KEY })
     # make a query to the last.fm api for artists that match the artistQuery
-    artistUrl = BASE_URL + '/2.0/?method=artist.gettopalbums&' + artist +'&' + api_key + '&format=json'
+    artistUrl = BASE_URL + '/2.0/?method=artist.gettopalbums&' + artist + '&' + api_key + '&format=json'
 
     # read the results of the query and convert to json
     artistAlbums = json.loads(urllib2.urlopen(artistUrl).read())
 
-    albums = artistAlbums['topalbums']['album']
+    try:
+        albums = artistAlbums['topalbums']['album']
+    except KeyError:
+        print "Could not find any albums for this artist. Maybe check your spelling?"
+        return []
+
     albumNames = []
     for album in albums:
         # convert the album names from unicode and append to list 
@@ -354,7 +367,11 @@ def get_tracks_by_album(artistQuery, albumQuery):
 
 
     # read results of query and convert to json
-    albumInfo = json.loads(urllib2.urlopen(albumInfo).read())['album']['tracks']['track']
+    try:
+        albumInfo = json.loads(urllib2.urlopen(albumInfo).read())['album']['tracks']['track']
+    except KeyError:
+        print 'Could not find any albums from that query. Maybe check your spelling?'
+        return []
 
     trackList = []
     for track in albumInfo:
