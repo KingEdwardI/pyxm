@@ -12,7 +12,8 @@ setup(
     install_requires=[
         'youtube-dl',
         'BeautifulSoup4',
-        'requests'
+        'requests',
+        'fish'
         ],
     zip_safe=False,
     test_suite='nose2.collector.collector'

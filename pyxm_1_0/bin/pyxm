@@ -11,6 +11,7 @@ import unicodedata as unicorn
 import urllib
 import urllib2
 import json
+import fish
 from urllib import quote_plus as qp
 __API_KEY__ = open(os.getenv('HOME') + '/.pyxm/api_key').read()
 
@@ -97,7 +98,9 @@ Type 'help' for a list of commands
                     main_cli(quiet, turbo)
                 print 'downloading tracks...' if not quiet else ''
                 loading = True
-                download_many(trackList, quiet, False)
+                while loading:
+                    loading = download_many(trackList, quiet, False)
+                    fish.animate()
                 print 'Finished Downloading: ', trackList if not quiet else ''
                 main_cli(quiet, turbo)
 
@@ -108,7 +111,7 @@ Type 'help' for a list of commands
         elif cmd_case.lower() in ['album', 'l']:
             try: 
                 album = raw_input('Search for an album(^C to quit, ^B to return to menu): ')
-                artist = raw_input('Artist of the album(^C to quit, ^B to return to menu): ')
+                artist = raw_input('ARTIST of the album(^C to quit, ^B to return to menu): ')
 
                 if album in ['^B', ''] or artist in ['^B', '']:
                     main_cli(quiet, turbo)
@@ -140,7 +143,10 @@ Type 'help' for a list of commands
                 print 'searching for track...' if not quiet else ''
                 trackUrl = get_single_video_link(track)
                 print 'downloading track...' if not quiet else ''
-                download_direct(trackUrl, quiet, turbo)
+                loading = True
+                while loading:
+                    fish.animate()
+                    loading = download_direct(trackUrl, quiet, turbo)
                 main_cli(quiet, turbo)
 
             except KeyboardInterrupt:
@@ -199,8 +205,6 @@ def search_uses_flags(argstring, *flags):
             return True
     return False
 
-    
-
 def download_many(trackList, quiet, turbo):
     if not trackList:
         print "No tracks Found"
@@ -208,11 +212,14 @@ def download_many(trackList, quiet, turbo):
         urls = []
         for track in trackList:
             tUrl = get_single_video_link(track)
+            print track, tUrl
             if type(tUrl) == str and tUrl != '':
-                urls.append(tUrl)
+                urls.append((track, tUrl))
+                print urls
 
         for url in urls:
-            download_direct(url, quiet, turbo)
+            download_direct(urls[url], quiet, turbo)
+        return False
 
 def tracks_from_artist(artist):
     """
@@ -262,8 +269,8 @@ def download_direct(url_path, quiet, turbo):
         '--extract-audio',
         '--audio-format mp3',
         '--audio-quality 0',
-        '--output \'%(title)s.%(ext)s\'',
-        'https://www.youtube.com' + url_path]
+        '--output \'' + url_path[0] + '.%(ext)s\'',
+        'https://www.youtube.com' + url_path[1]]
 
     if turbo:
         command_tokens.append('&')
@@ -275,6 +282,7 @@ def download_direct(url_path, quiet, turbo):
 
     # Youtube-dl is a proof that dog exists.
     os.system(command)
+    return False
  
 def makeRequest(url, hdr):
     """ Make HTTP requests to youtube """
@@ -296,6 +304,7 @@ def search_videos(query):
     Searches for videos given a query
     :rtype: list[tuple]
     """
+    print query
     response = makeRequest('https://www.youtube.com/results?search_query=' + query, {})
     return extract_videos(response.content)
 
