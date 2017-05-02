@@ -15,6 +15,9 @@ play_count
 """
 
 def main():
+    pass
+
+def bagAndTag():
     filenames = getFileNames()
     for name in filenames:
         if name[-4:] == '.mp3':
@@ -26,7 +29,7 @@ def main():
             setId3Tags(name, **tags)
 
 
-def getFileNames():
+def getFileNames(folder='./'):
     """
     get all of the files in the current folder and return the names of the files.
 
@@ -34,7 +37,7 @@ def getFileNames():
     :rtype: list
     """
 
-    for _, __, files in os.walk('./'):
+    for _, __, files in os.walk(folder):
         return files
 
 

@@ -4,15 +4,16 @@ helpmsg = """
 Usage:
     pyxm download (-a | -l | -t) QUERY
     pyxm search (-a | -l | -t) QUERY
+    pyxm format
     pyxm [-h | --help] 
     pyxm --version
     
 Options:
-    --help -h   Show this screen.
-    -a          specify artist query
-    -l          specify album query
-    -t          specify track query
-    --version   show program version
+    -h --help       Show this screen.
+    -a              specify artist query
+    -l              specify album query
+    -t              specify track query
+    --version       show program version
     
 """
 
@@ -28,4 +29,4 @@ PYXM = """
 :::             ::::        :::   :::   :::             ::: @@@@@@@@@   @@@@@@@@@
 :::             ::::       :::     :::  :::             :::  @@@@@@@     @@@@@@@
 :::             ::::      :::       ::: :::             :::   @@@@        @@@@   
-    """
+"""

@@ -46,7 +46,7 @@ def download_track(track):
     }
     """
 
-    filename = track['track'] + ' - ' + track['album'] + ' - ' + track['artist']
+    filename = track['track'] + '_-_' + track['album'] + '_-_' + track['artist']
     track_query = track['track'] + ' - ' + track['artist']
 
     video = ixm2.search_videos(track_query)[0] # returns the first result of the track query to youtube

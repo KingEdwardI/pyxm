@@ -6,6 +6,7 @@ import sys
 import helpmenu
 import spotify.search as spit
 import spotify.download as splat
+import metadata.id3tags as tagme
 
 def main():
 
@@ -34,6 +35,10 @@ def main():
             print spit.track_search(helpmenu.helpmenu['QUERY'])
         else:
             print 'please specify a search type'
+
+    elif helpmenu.helpmenu['format']:
+        print 'formatting id3 tags...'
+        tagme.bagAndTag()
 
     else:
         print helpmenu.PYXM
