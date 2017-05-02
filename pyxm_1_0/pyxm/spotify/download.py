@@ -4,7 +4,7 @@
 # Version : 1.5
 from urllib import quote_plus as qp
 import os, sys, urllib
-import ixm2
+import ixm
 import search
 
 # PYXM = """""" # TODO
