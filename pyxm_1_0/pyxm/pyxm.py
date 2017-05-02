@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 # PyXm - CLI
 # Author : Edward Vetter-Drake
 # Version : 2.0
@@ -12,37 +12,37 @@ import metadata.folders as crease
 
 def main():
 
-    if menu.menu['download']:
-        if menu.menu['-a']:
-            print 'download artist ' + menu.menu['QUERY']
-            splat.download_artist(spit.artist_search(menu.menu['QUERY'])[0]['uri'])
-        elif menu.menu['-l']:
-            print 'download album ' + menu.menu['QUERY']
-            splat.download_album(spit.album_search(menu.menu['QUERY'])[0]['uri'])
-        elif menu.menu['-t']:
-            print 'download track ' + menu.menu['QUERY']
-            splat.download_track(spit.track_search(menu.menu['QUERY'])[0])
+    if menu.helpmenu['download']:
+        if menu.helpmenu['-a']:
+            print 'download artist ' + menu.helpmenu['QUERY']
+            splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'])
+        elif menu.helpmenu['-l']:
+            print 'download album ' + menu.helpmenu['QUERY']
+            splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'])
+        elif menu.helpmenu['-t']:
+            print 'download track ' + menu.helpmenu['QUERY']
+            splat.download_track(spit.track_search(menu.helpmenu['QUERY'])[0])
         else:
             print 'please specify a download type'
 
-    elif menu.menu['search']:
-        if menu.menu['-a']:
-            print 'search artist: ' + menu.menu['QUERY']
-            print spit.artist_search(menu.menu['QUERY'])
-        elif menu.menu['-l']:
-            print 'search album: ' + menu.menu['QUERY']
-            print spit.album_search(menu.menu['QUERY'])
-        elif menu.menu['-t']:
-            print 'search track: ' + menu.menu['QUERY']
-            print spit.track_search(menu.menu['QUERY'])
+    elif menu.helpmenu['search']:
+        if menu.helpmenu['-a']:
+            print 'search artist: ' + menu.helpmenu['QUERY']
+            print spit.artist_search(menu.helpmenu['QUERY'])
+        elif menu.helpmenu['-l']:
+            print 'search album: ' + menu.helpmenu['QUERY']
+            print spit.album_search(menu.helpmenu['QUERY'])
+        elif menu.helpmenu['-t']:
+            print 'search track: ' + menu.helpmenu['QUERY']
+            print spit.track_search(menu.helpmenu['QUERY'])
         else:
             print 'please specify a search type'
 
-    elif menu.menu['format']:
-        if menu.menu['-m']:
+    elif menu.helpmenu['format']:
+        if menu.helpmenu['-m']:
             print 'formatting id3 tags...'
             tagme.bagAndTag()
-        elif menu.menu['-f']:
+        elif menu.helpmenu['-f']:
             print 'creating folders and moving files...'
             crease.makeAndMove()
         else:

@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 # PyXm - CLI
 # Author : Edward Vetter-Drake
 # Version : 1.5

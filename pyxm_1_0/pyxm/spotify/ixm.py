@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 # PyXm -IXM download functions
 # Author : Edward Vetter-Drake
 # Version : 1.2

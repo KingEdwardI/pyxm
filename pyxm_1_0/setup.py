@@ -1,3 +1,4 @@
+#!/usr/local/bin/python
 from setuptools import setup
 from sys import platform
 setup(
@@ -9,13 +10,13 @@ setup(
     author_email='edward.vetterdrake@gmail.com',
     packages=['pyxm'],
     scripts=[
-        'bin/pyxm.py',
-        'bin/menu.py',
-        'bin/spotify/download.py',
-        'bin/spotify/ixm.py',
-        'bin/spotify/search.py',
-        'bin/metadata/folders.py',
-        'bin/metadata/id3tags.py'
+        'pyxm/pyxm.py',
+        'pyxm/menu.py',
+        'pyxm/spotify/download.py',
+        'pyxm/spotify/ixm.py',
+        'pyxm/spotify/search.py',
+        'pyxm/metadata/folders.py',
+        'pyxm/metadata/id3tags.py'
         ],
     install_requires=[
         'youtube-dl',

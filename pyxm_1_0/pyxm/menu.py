@@ -1,3 +1,4 @@
+#!/usr/local/bin/python
 from docopt import docopt
 
 helpmsg = """

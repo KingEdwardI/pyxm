@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/local/bin/python
 
 import spotipy, pprint, json
 sp = spotipy.Spotify()
