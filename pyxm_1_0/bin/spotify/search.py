@@ -34,6 +34,7 @@ def artist_search(artist, limit_ = 10):
     for artist in artists:
         artistlist.append({ \
             'artist': artist['name'], \
+            'image': type(artist['images']), \
             'uri': artist['uri'] \
             })
 

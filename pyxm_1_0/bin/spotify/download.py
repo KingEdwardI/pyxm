@@ -10,7 +10,6 @@ import search
 # PYXM = """""" # TODO
 # helpmenu = """""" # TODO
 # welcome = """""" # TODO
-sampleTrack = {'track': u'Hello', 'album': u'Hello', 'uri': u'spotify:track:0ENSn4fwAbCGeFGVUbXEU3', 'artist': u'Adele'}
 sampleArtist = {'uri': u'spotify:artist:7mnBLXK823vNxN3UWB7Gfz', 'artist': u'The Black Keys'}
 
 
@@ -18,14 +17,16 @@ def main():
     pass
 
 def download_artist(artistId):
+    """artistId passed in as a string."""
     album_res = search.get_artist_albums(artistId)['items']
     albumDict = {}
-    print album_res
     for album in album_res:
         albumDict[album['name']] = []
         download_album(album['uri'])
         
 def download_album(albumId):
+    """albumId is passed in as a string."""
+
     tracks = search.get_album_tracks(albumId)['items']
     for track in tracks:
         try:
@@ -34,12 +35,24 @@ def download_album(albumId):
             pass
 
 def download_track(track):
+    """
+    track is passed in as a dict and downloaded with ixm module.
+
+    sampleTrack = {\
+        'track': u'Hello',\
+        'album': u'Hello',\
+        'uri': u'spotify:track:0ENSn4fwAbCGeFGVUbXEU3',\
+        'artist': u'Adele'\
+    }
+    """
+
     filename = track['track'] + ' - ' + track['album'] + ' - ' + track['artist']
     track_query = track['track'] + ' - ' + track['artist']
 
-    video = ixm2.search_videos(track_query)[0]
-    ixm2.download_direct(video, filename)
-
+    video = ixm2.search_videos(track_query)[0] # returns the first result of the track query to youtube
+    print '[YOUTUBE TITLE]: ', video[0]
+    print '[YOUTUBE URL]: ', video[1]
+    ixm2.download_direct(video, filename) # download the video
 
     
 
