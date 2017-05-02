@@ -1,3 +1,0 @@
-youtube-dl
-BeautifulSoup4
-requests

@@ -1,6 +1,6 @@
 #!/usr/local/bin/python
-import eyed3
-import os
+import os, eyed3
+
 """
 album
 album_artist
@@ -18,18 +18,17 @@ def main():
     pass
 
 def bagAndTag():
-    filenames = getFileNames()
+    filenames = getMp3Names()
     for name in filenames:
-        if name[-4:] == '.mp3':
-            tags = dict({\
-                'artist' : name.split('_-_')[2][:-4],\
-                'album' : name.split('_-_')[1],\
-                'title' : name.split('_-_')[0],\
-            })
-            setId3Tags(name, **tags)
+        tags = dict({\
+            'artist' : name.split('_-_')[2][:-4],\
+            'album' : name.split('_-_')[1],\
+            'title' : name.split('_-_')[0],\
+        })
+        setId3Tags(name, **tags)
 
 
-def getFileNames(folder='./'):
+def getMp3Names(folder='./'):
     """
     get all of the files in the current folder and return the names of the files.
 
@@ -38,7 +37,11 @@ def getFileNames(folder='./'):
     """
 
     for _, __, files in os.walk(folder):
-        return files
+        mp3s = []
+        for fn in files:
+            if 'mp3' in fn:
+                mp3s.append(fn)
+        return mp3s
 
 
 def setId3Tags(mp3filename, **kwargs):
