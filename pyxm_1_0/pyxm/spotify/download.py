@@ -7,12 +7,6 @@ import os, sys, urllib
 import ixm
 import search
 
-# PYXM = """""" # TODO
-# helpmenu = """""" # TODO
-# welcome = """""" # TODO
-sampleArtist = {'uri': u'spotify:artist:7mnBLXK823vNxN3UWB7Gfz', 'artist': u'The Black Keys'}
-
-
 def main():
     pass
 

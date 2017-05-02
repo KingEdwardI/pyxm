@@ -70,8 +70,8 @@ def download_direct(url_path, filename, quiet=False, turbo=False):
         '--output \'' + filename + '.%(ext)s\'',
         'https://www.youtube.com' + url_path[1]]
 
-    if turbo:
-        command_tokens.append('&')
+    #  if turbo:
+    command_tokens.append('&')
 
     if quiet:
         command_tokens.insert(1, '-q')
