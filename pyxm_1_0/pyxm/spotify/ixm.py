@@ -2,11 +2,12 @@
 # PyXm -IXM download functions
 # Author : Edward Vetter-Drake
 # Version : 1.2
+import os, requests, re, sys, urllib2, json, subprocess
 from bs4 import BeautifulSoup as YumSauce
 from urllib import quote_plus as quip
 import unicodedata as unicorn
+
 import search
-import os, requests, re, sys, urllib2, json
 
 def main():
     #  download_direct([0,'yBuub4Xe1mw'], 'Led Zeppelin - Black Dog')
@@ -62,24 +63,24 @@ def download_direct(url_path, filename, quiet=False, turbo=False):
     Download a track directly from the url
     """
 
+    # for subprocess.call to work, each argument must be passed separately
     command_tokens = [
         'youtube-dl',
         '--extract-audio',
-        '--audio-format mp3',
-        '--audio-quality 0',
-        '--output \'' + filename + '.%(ext)s\'',
-        'https://www.youtube.com' + url_path[1]]
+        '--audio-format', 'mp3',
+        '--audio-quality', '0',
+        '--output', str(filename) + '.%(ext)s',
+        'https://www.youtube.com' + str(url_path[1])
+    ]
 
-    #  if turbo:
-    command_tokens.append('&')
+    if turbo:
+        command_tokens.append('&')
 
     if quiet:
         command_tokens.insert(1, '-q')
 
-    command = ' '.join(command_tokens)
-
     # Youtube-dl is a proof that doge exists.
-    os.system(command)
+    subprocess.call(command_tokens)
     return
 
 

@@ -13,15 +13,17 @@ def makeAndMove():
 def moveFiles():
     mp3s = tagme.getMp3Names()
     for mp3 in mp3s:
-        os.rename(os.path.abspath(mp3), os.path.dirname(os.path.abspath(mp3)) + '/album/' + mp3)
+        os.rename(os.path.abspath(mp3), os.path.dirname(os.path.abspath(mp3)) + '/' + mp3.split('_-_')[1] + '/' + mp3)
 
 def makeAlbumFolders():
     # TODO: find album date from spotipy and include in folder name
 
     mp3s = tagme.getMp3Names()
-    albums = []
     for mp3 in mp3s:
-        os.mkdir(mp3.split('_-_')[1])
+        try:
+            os.mkdir(mp3.split('_-_')[1])
+        except OSError:
+            pass
 
 
 if __name__ == '__main__':

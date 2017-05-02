@@ -25,8 +25,8 @@ def download_album(albumId):
     for track in tracks:
         try:
             download_track(search.make_track(search.get_track(track['uri'])))
-        except:
-            pass
+        except Exception as e:
+            print e
 
 def download_track(track):
     """
@@ -43,10 +43,10 @@ def download_track(track):
     filename = track['track'] + '_-_' + track['album'] + '_-_' + track['artist']
     track_query = track['track'] + ' - ' + track['artist']
 
-    video = ixm2.search_videos(track_query)[0] # returns the first result of the track query to youtube
+    video = ixm.search_videos(track_query)[0] # returns the first result of the track query to youtube
     print '[YOUTUBE TITLE]: ', video[0]
     print '[YOUTUBE URL]: ', video[1]
-    ixm2.download_direct(video, filename) # download the video
+    ixm.download_direct(video, filename) # download the video
 
     
 
