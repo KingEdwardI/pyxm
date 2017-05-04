@@ -44,6 +44,7 @@ def download_track(track):
     track_query = track['track'] + ' - ' + track['artist']
 
     video = ixm.search_videos(track_query)[0] # returns the first result of the track query to youtube
+    print '[ORIGINAL QUERY]', track_query
     print '[YOUTUBE TITLE]: ', video[0]
     print '[YOUTUBE URL]: ', video[1]
     ixm.download_direct(video, filename) # download the video
