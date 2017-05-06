@@ -63,9 +63,10 @@ def download_direct(url_path, filename, quiet=False, turbo=False):
     Download a track directly from the url
     """
 
-    # for subprocess.call to work, each argument must be passed separately
+    # for subprocess.call to work, each argument must be passed separately and in order
     command_tokens = [
         'youtube-dl',
+        '--no-warnings',
         '--extract-audio',
         '--audio-format', 'mp3',
         '--audio-quality', '0',

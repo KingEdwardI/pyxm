@@ -3,7 +3,7 @@ from docopt import docopt
 
 helpmsg = """
 Usage:
-    pyxm download (-a | -l | -t) QUERY
+    pyxm download (-a | -l | -t) [-v] QUERY
     pyxm search (-a | -l | -t) QUERY
     pyxm format [-m | -f | -c]
     pyxm [-h | --help] 
@@ -14,6 +14,7 @@ Options:
     -a              specify artist query
     -l              specify album query
     -t              specify track query
+    -v              display debugging details
     -m              get metadata from filenames and write to file
     -f              create folder structure and move files
     -c              cleanup CWD by removing all non-mp3s

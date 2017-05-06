@@ -17,13 +17,19 @@ def main():
         if menu.helpmenu['-a']:
             print 'download artist ' + menu.helpmenu['QUERY']
             try:
-                splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'])
+                if menu.helpmenu['-v']:
+                    splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'], quiet=False)
+                else:
+                    splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'])
             except IndexError:
                 print 'No artists found matching that query'
         elif menu.helpmenu['-l']:
             print 'download album ' + menu.helpmenu['QUERY']
             try:
-                splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'])
+                if menu.helpmenu['-v']:
+                    splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'], quiet=False)
+                else:
+                    splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'])
             except IndexError:
                 print 'No albums found matching that query'
         elif menu.helpmenu['-t']:

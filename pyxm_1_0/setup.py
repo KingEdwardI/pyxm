@@ -24,7 +24,8 @@ setup(
         'requests',
         'eyed3',
         'spotipy',
-        'docopt'
+        'docopt',
+        'tqdm'
         ],
     zip_safe=False,
     test_suite='nose2.collector.collector'

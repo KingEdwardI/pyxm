@@ -6,11 +6,12 @@ from urllib import quote_plus as qp
 import os, sys, urllib
 import ixm
 import search
+from tqdm import tqdm
 
 def main():
     pass
 
-def download_artist(artistId):
+def download_artist(artistId, quiet=True):
     """artistId passed in as a string."""
     album_res = search.get_artist_albums(artistId)['items']
     albumDict = {}
@@ -18,17 +19,17 @@ def download_artist(artistId):
         albumDict[album['name']] = []
         download_album(album['uri'])
         
-def download_album(albumId):
+def download_album(albumId, quiet=True):
     """albumId is passed in as a string."""
 
     tracks = search.get_album_tracks(albumId)['items']
-    for track in tracks:
+    for track in tqdm(tracks, ascii=True, desc='Downloading...', unit='track'):
         try:
-            download_track(search.make_track(search.get_track(track['uri'])))
+            download_track(search.make_track(search.get_track(track['uri'])), quiet)
         except Exception as e:
             print e
 
-def download_track(track):
+def download_track(track, quiet=True):
     """
     track is passed in as a dict and downloaded with ixm module.
 
@@ -44,10 +45,11 @@ def download_track(track):
     track_query = track['track'] + ' - ' + track['artist']
 
     video = ixm.search_videos(track_query)[0] # returns the first result of the track query to youtube
-    print '[ORIGINAL QUERY]', track_query
-    print '[YOUTUBE TITLE]: ', video[0]
-    print '[YOUTUBE URL]: ', video[1]
-    ixm.download_direct(video, filename) # download the video
+    if not quiet:
+        print '[ORIGINAL QUERY]', track_query
+        print '[YOUTUBE TITLE]: ', video[0]
+        print '[YOUTUBE URL]: ', video[1]
+    ixm.download_direct(video, filename, quiet) # download the video
 
     
 
