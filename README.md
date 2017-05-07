@@ -5,9 +5,11 @@ Batch download music from youtube utilizing the spotify api
 ### Upcoming features
 
 #### Version 2 :
-* choose what to download from a search
+
+* escape characters for bash.
 
 #### Version 3 : User Interface
+
 * v3.0 : user interface
 
 ## Version 2 : Improved CLI + Spotify + Formatting
