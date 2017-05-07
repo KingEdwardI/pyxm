@@ -93,6 +93,8 @@ def get_album_tracks(album_id, limit_=50):
     """
     return SP.album_tracks(album_id, limit=limit_)
 
+def get_track(trackId):
+    return sp.track(trackId)
 
 #  def playlist_search(playlist):
     #  pass
