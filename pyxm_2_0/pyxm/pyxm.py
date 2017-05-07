@@ -81,7 +81,7 @@ def format_menu():
     # Folders
     elif menu.helpmenu['-f']:
         print 'creating folders and moving files...'
-        crease.makeAndMove()
+        crease.make_and_move()
 
     # Clean
     elif menu.helpmenu['-c']:
