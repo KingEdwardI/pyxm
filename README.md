@@ -76,11 +76,16 @@ Commands:
 
 ## Running Tests
 
+## Disclaimer
+
+Downloading copyrighted material may be illegal in your country. Use at your own risk.
 
 ## Authors
+
 * <b>Edward Vetter-Drake</b> - PyXm 
 
 ## Acknowledgements
+
 * <a href="https://github.com/yask123">Yask123</a>
 
 > Inspiration from Yask123 Instant-Music-Downloader

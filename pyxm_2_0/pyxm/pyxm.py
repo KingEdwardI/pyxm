@@ -102,7 +102,7 @@ def artist_search():
     """artist search"""
 
     print 'search artist: ' + menu.helpmenu['QUERY']
-    if spit.artist_search(menu.helpmenu['QUERY']):
+    if not spit.artist_search(menu.helpmenu['QUERY']):
         print 'no artists found matching that query'
     else:
         PP.pprint(spit.artist_search(menu.helpmenu['QUERY']))
@@ -112,7 +112,7 @@ def album_search():
     """album search"""
 
     print 'search album: ' + menu.helpmenu['QUERY']
-    if spit.album_search(menu.helpmenu['QUERY']):
+    if not spit.album_search(menu.helpmenu['QUERY']):
         print 'No albums found matching that query'
     else:
         PP.pprint(spit.album_search(menu.helpmenu['QUERY']))
