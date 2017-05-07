@@ -19,7 +19,7 @@ def make_and_move():
 
 def move_files():
     """move files into structured folders"""
-    mp3s = tagme.getMp3Names()
+    mp3s = tagme.get_mp3_names()
     for mp3 in mp3s:
         old_file = os.path.abspath(mp3)
         new_file = os.path.dirname(os.path.abspath(mp3))
@@ -33,7 +33,7 @@ def make_album_folders():
     """create folders from filenames"""
     # TODO: find album date from spotipy and include in folder name
 
-    mp3s = tagme.getMp3Names()
+    mp3s = tagme.get_mp3_names()
     for mp3 in mp3s:
         try:
             os.mkdir(mp3.split('_-_')[1])
