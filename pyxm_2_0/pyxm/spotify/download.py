@@ -56,7 +56,7 @@ def download_track(track, quiet=True):
     filename = quote_argument(track['track'] + '_-_' + track['album'] + '_-_' + track['artist'])
 
     track_queri = track['track'] + ' - ' + track['artist']
-    track_query = track_queri.replace(u'\xd6', 'O').decode('ascii', 'ignore')
+    track_query = track_queri.replace(u'\xd6', 'O').replace(u'\xf4', 'o').decode('ascii', 'ignore')
 
     video = ixm.search_videos(track_query)[0] # returns the first result of the track query to youtube
     if not quiet:

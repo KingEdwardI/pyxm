@@ -68,23 +68,24 @@ def main():
             print 'cleaning directory...'
             broomstick.removeJunk() 
         else:
-            format_ = raw_input('Are you sure you want to format everything? (y/N) >')
-            if format_.lower() == 'y':
-                print 'formatting id3 tags...'
-                tagme.bagAndTag()
-                print 'creating folders and moving files...'
-                crease.makeAndMove()
-                print 'cleaning directory...'
-                broomstick.removeJunk() 
+            if menu.helpmenu['-y']:
+                formatFolder()
             else:
-                print menu.PYXM
-                print menu.helpmsg 
-
+                format_ = raw_input('Are you sure you want to format everything? (y/N) >')
+                if format_.lower() == 'y':
+                    formatFolder()
 
     else:
         print menu.PYXM
         print menu.helpmsg 
     
+def formatFolder():
+    print 'formatting id3 tags...'
+    tagme.bagAndTag()
+    print 'creating folders and moving files...'
+    crease.makeAndMove()
+    print 'cleaning directory...'
+    broomstick.removeJunk() 
 
 if __name__ == '__main__':
     main()
