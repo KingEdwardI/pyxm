@@ -1,5 +1,6 @@
 .cache
 .egg
+.pyc
 build/
 dist/
 PyXm.egg-info/

@@ -1,61 +1,75 @@
 ## PyXm
 
-Easily install music utilizing last.fm and youtube-dl
+Batch download music from youtube utilizing the spotify api
 
 ### Upcoming features
 
-#### Version 1 : CLI
-* search functions
-* create directories
-* Soundcloud tracklist search
-* Spotify tracklist search
-* Pandora user search
-
-#### Version 2 : Metadata scrobbler from mp3.???
+#### Version 2 :
+* choose what to download from a search
 
 #### Version 3 : User Interface
 * v3.0 : user interface
 
-## Getting Started
+## Version 2 : Improved CLI + Spotify + Formatting
+Improved CLI 
 
-You will need an api-key from <a href="last.fm/api">last.fm</a>
+  * help menu
+  * progress bar
+
+Spotify API
+
+  * No need for API key
+  * searches are more reliable
+
+Formatting
+
+  * Downloaded files have formatted names
+  * con create folders based on albums
+  * can take id3 metadata from filenames
+
+
+## Getting Started
 
 ### Prerequisites
 * Python
-* <a href="https://rg3.github.io/youtube-dl/download.html">youtube-dl</a>
-
 
 ### Installation
 
-`python super_installer.py`
+`git clone https://github.com/KingEdwardI/pyxm $HOME/.pyxm`
 
-you will be prompted for an API key, without a valid last.fm API key, this will not work.
+`pip install -r $HOME/.pyxm/requirements.txt`
+
+`alias pyxm=$HOME/.pyxm/pyxm_2_0/pyxm.py`
 
 ## Usage
-From anywhere in the command line (preferably a new folder) run `pyxm`. Currently pyxm will download into the current working directory.
 
-#### CLI Commands:
+##### Create a new directory for download and navigate into that directory to run the program
 
 ```
-    help, h: display this message and return to pyxm console
+Usage:
+    pyxm download (-a | -l | -t) [-v] QUERY
+    pyxm search (-a | -l | -t) QUERY
+    pyxm format [-y] [-m | -f | -c] 
+    pyxm [-h | --help] 
+    pyxm --version
     
-    turbo, X, zoom: will toggle turbo mode !!! This WILL cause serious system resource usage, use with caution !!!
+Options:
+    -h --help       Show this screen and exit
+    -a              specify artist query
+    -l              specify album query
+    -t              specify track query
+    -v              display debugging details
+    -m              get metadata from filenames and write to file
+    -f              create folder structure and move files
+    -y              yes, format everything
+    -c              cleanup CWD by removing all non-mp3s
+    --version       show program version
+
+Commands:
+    download        specify artist, album, or track, query for respective item and download what is found
+    search          specify artist, album, or track, query for respective item and display what is found
+    format          format metadata, folder structure, or cleanup cwd.
     
-    quiet, q, shh: will toggle quiet mode
-    
-    artist, a: enter an artist search line where you will be
-        prompted for an artist and it will download all
-        tracks found for that artist
-        
-    album, l: enter an album search line where you will be
-        prompted for an album and it will download all
-        tracks found for that album
-        
-    track, t: enter a song search line where you will be
-        prompted for a song, which will create a list and
-        download when you exit the line
-        
-    exit: will quit PyXm
 ```
 
 ## Running Tests
