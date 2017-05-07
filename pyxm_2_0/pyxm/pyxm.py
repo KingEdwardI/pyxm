@@ -1,8 +1,10 @@
 #!/usr/local/bin/python
-# PyXm - CLI
-# Author : Edward Vetter-Drake
-# Version : 2.0
-import sys
+"""
+PyXm - CLI
+Author : Edward Vetter-Drake
+Version : 2.0
+"""
+import pprint
 
 import menu
 import spotify.search as spit
@@ -11,87 +13,195 @@ import metadata.id3tags as tagme
 import metadata.folders as crease
 import metadata.cleanup as broomstick
 
+PP = pprint.PrettyPrinter(indent=2)
+
 def main():
+    """Run program"""
 
+    # Download
     if menu.helpmenu['download']:
-        if menu.helpmenu['-a']:
-            print 'download artist ' + menu.helpmenu['QUERY']
-            try:
-                if menu.helpmenu['-v']:
-                    splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'], quiet=False)
-                elif menu.helpmenu['-x']:
-                    splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'])
-                    formatFolder()
-                else:
-                    splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'])
-            except IndexError:
-                print 'No artists found matching that query'
-        elif menu.helpmenu['-l']:
-            print 'download album ' + menu.helpmenu['QUERY']
-            try:
-                if menu.helpmenu['-v']:
-                    splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'], quiet=False)
-                elif menu.helpmenu['-x']:
-                    splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'])
-                    formatFolder()
-                else:
-                    splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'])
-            except IndexError:
-                print 'No albums found matching that query'
-        elif menu.helpmenu['-t']:
-            print 'download track ' + menu.helpmenu['QUERY']
-            splat.download_track(spit.track_search(menu.helpmenu['QUERY'])[0])
-        else:
-            print 'please specify a download type'
+        download_menu()
 
+    # Search
     elif menu.helpmenu['search']:
-        if menu.helpmenu['-a']:
-            print 'search artist: ' + menu.helpmenu['QUERY']
-            if len(spit.artist_search(menu.helpmenu['QUERY'])) == 0:
-                print 'no artists found matching that query'
-            else:
-                print spit.artist_search(menu.helpmenu['QUERY'])
-        elif menu.helpmenu['-l']:
-            print 'search album: ' + menu.helpmenu['QUERY']
-            if len(spit.album_search(menu.helpmenu['QUERY'])) == 0:
-                print 'No albums found matching that query'
-            else:
-                print spit.album_search(menu.helpmenu['QUERY'])
-        elif menu.helpmenu['-t']:
-            print 'search track: ' + menu.helpmenu['QUERY']
-            print spit.track_search(menu.helpmenu['QUERY'])
-        else:
-            print 'please specify a search type'
+        search_menu()
 
+    # Formatting
     elif menu.helpmenu['format']:
-        if menu.helpmenu['-m']:
-            print 'formatting id3 tags...'
-            tagme.bagAndTag()
-        elif menu.helpmenu['-f']:
-            print 'creating folders and moving files...'
-            crease.makeAndMove()
-        elif menu.helpmenu['-c']:
-            print 'cleaning directory...'
-            broomstick.removeJunk() 
-        else:
-            if menu.helpmenu['-y']:
-                formatFolder()
-            else:
-                format_ = raw_input('Are you sure you want to format everything? (y/N) >')
-                if format_.lower() == 'y':
-                    formatFolder()
+        format_menu()
 
     else:
         print menu.PYXM
-        print menu.helpmsg 
-    
-def formatFolder():
+        print menu.helpmsg
+
+def download_menu():
+    """download menu"""
+
+    # Artist flag
+    if menu.helpmenu['-a']:
+        print 'download artist ' + menu.helpmenu['QUERY']
+        artist_download()
+    # Album flag
+    elif menu.helpmenu['-l']:
+        print 'download album ' + menu.helpmenu['QUERY']
+        album_download()
+    # Track flag
+    elif menu.helpmenu['-t']:
+        print 'download track ' + menu.helpmenu['QUERY']
+        track_download()
+    else:
+        print 'please specify a download type'
+
+
+def search_menu():
+    """search menu"""
+
+    # Artist
+    if menu.helpmenu['-a']:
+        artist_search()
+    # Album
+    elif menu.helpmenu['-l']:
+        album_search()
+    # Track
+    elif menu.helpmenu['-t']:
+        print 'search track: ' + menu.helpmenu['QUERY']
+        print PP.pprint(spit.track_search(menu.helpmenu['QUERY']))
+    else:
+        print 'please specify a search type'
+
+
+def format_menu():
+    """format menu"""
+
+    # Id3 tags
+    if menu.helpmenu['-m']:
+        print 'formatting id3 tags...'
+        tagme.bag_and_tag()
+
+    # Folders
+    elif menu.helpmenu['-f']:
+        print 'creating folders and moving files...'
+        crease.makeAndMove()
+
+    # Clean
+    elif menu.helpmenu['-c']:
+        print 'cleaning directory...'
+        broomstick.remove_junk()
+
+    # All
+    else:
+        if menu.helpmenu['-y']:
+            format_folder()
+        else:
+            format_ = raw_input('Are you sure you want to format everything? (y/N) >')
+            if format_.lower() == 'y':
+                format_folder()
+
+
+def artist_search():
+    """artist search"""
+
+    print 'search artist: ' + menu.helpmenu['QUERY']
+    if spit.artist_search(menu.helpmenu['QUERY']):
+        print 'no artists found matching that query'
+    else:
+        PP.pprint(spit.artist_search(menu.helpmenu['QUERY']))
+
+
+def album_search():
+    """album search"""
+
+    print 'search album: ' + menu.helpmenu['QUERY']
+    if spit.album_search(menu.helpmenu['QUERY']):
+        print 'No albums found matching that query'
+    else:
+        PP.pprint(spit.album_search(menu.helpmenu['QUERY']))
+
+
+def artist_download():
+    """artist download"""
+
+    try:
+        query = menu.helpmenu['QUERY']
+
+        # Verbose
+        if menu.helpmenu['-v']:
+            splat.download_artist(spit.artist_search(query)[0]['uri'], quiet=False)
+
+        # Format
+        elif menu.helpmenu['-x']:
+            splat.download_artist(spit.artist_search(query)[0]['uri'])
+            format_folder()
+
+        # Input Spotify URI
+        elif menu.helpmenu['-i']:
+            splat.download_artist(spit.artist_search(query))
+            if menu.helpmenu['-x']:
+                format_folder()
+
+        # Default
+        else:
+            splat.download_artist(spit.artist_search(query)[0]['uri'])
+
+    except IndexError:
+        print 'No artists found matching that query'
+
+
+def album_download():
+    """album download"""
+
+    try:
+        query = menu.helpmenu['QUERY']
+
+        # Verbose
+        if menu.helpmenu['-v']:
+            splat.download_album(spit.album_search(query)[0]['uri'], quiet=False)
+
+        # Format
+        elif menu.helpmenu['-x']:
+            splat.download_album(spit.album_search(query)[0]['uri'])
+            format_folder()
+
+        # Input Spotify URI
+        elif menu.helpmenu['-i']:
+            splat.download_album(spit.album_search(query))
+            if menu.helpmenu['-x']:
+                format_folder()
+
+        # Default
+        else:
+            splat.download_album(spit.album_search(query)[0]['uri'])
+
+    except IndexError:
+        print 'No albums found matching that query'
+
+
+def track_download():
+    """track download"""
+
+    # Verbose
+    if menu.helpmenu['-v']:
+        splat.download_track(spit.track_search(menu.helpmenu['QUERY'])[0], quiet=False)
+
+    # Format
+    elif menu.helpmenu['-x']:
+        print 'formatting not available for single track'
+
+    # Input Spotify URI
+    elif menu.helpmenu['-i']:
+        splat.download_track(spit.track_search(menu.helpmenu['QUERY']))
+
+def format_folder():
+    """format the current working directory"""
+
     print 'formatting id3 tags...'
-    tagme.bagAndTag()
+    tagme.bag_and_tag()
     print 'creating folders and moving files...'
-    crease.makeAndMove()
+    crease.make_and_move()
     print 'cleaning directory...'
-    broomstick.removeJunk() 
+    broomstick.remove_junk()
+
+
 
 if __name__ == '__main__':
     main()

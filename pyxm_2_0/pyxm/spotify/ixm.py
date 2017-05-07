@@ -1,16 +1,18 @@
 #!/usr/local/bin/python
-# PyXm -IXM download functions
-# Author : Edward Vetter-Drake
-# Version : 1.2
-import os, requests, re, sys, urllib2, json, subprocess
+"""
+PyXm -IXM download functions
+Author : Edward Vetter-Drake
+Version : 1.2
+"""
+import os
+import re
+import sys
+import subprocess
+import requests
 from bs4 import BeautifulSoup as YumSauce
-from urllib import quote_plus as quip
-
-import search
 
 def main():
-    #  download_direct([0,'yBuub4Xe1mw'], 'Led Zeppelin - Black Dog')
-    #  print (search_videos('Led Zeppelin - Black Dog'))
+    """pass"""
     pass
 
 def search_videos(query):
@@ -18,24 +20,24 @@ def search_videos(query):
     Searches for videos given a query
     :rtype: list[tuple]
     """
-    response = makeRequest('https://www.youtube.com/results?search_query=' + query, {})
+    response = make_request('https://www.youtube.com/results?search_query=' + query, {})
     return extract_videos(response.content)
 
 
-def makeRequest(url, hdr):
+def make_request(url, hdr):
     """ Make HTTP requests to youtube """
 
-    http_proxy  = os.environ.get("HTTP_PROXY")
+    http_proxy = os.environ.get("HTTP_PROXY")
     https_proxy = os.environ.get("HTTPS_PROXY")
-    ftp_proxy   = os.environ.get("FTP_PROXY")
+    ftp_proxy = os.environ.get("FTP_PROXY")
 
-    proxyDict = { 
+    proxy_dict = {
         "http"  : http_proxy,
         "https" : https_proxy,
         "ftp"   : ftp_proxy
         }
 
-    req = requests.get(url, headers=hdr, proxies=proxyDict)
+    req = requests.get(url, headers=hdr, proxies=proxy_dict)
     return req
 
 def extract_videos(html):

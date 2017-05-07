@@ -1,44 +1,49 @@
 #!/usr/local/bin/python
-# PyXm - CLI
-# Author : Edward Vetter-Drake
-# Version : 1.5
-from urllib import quote_plus as qp
-import os, sys, urllib, itertools
+"""
+PyXm - CLI
+Author : Edward Vetter-Drake
+Version : 1.5
+"""
+import sys
+import itertools
+
+from tqdm import tqdm
+
 import ixm
 import search
-from tqdm import tqdm
 
 reload(sys)
 sys.setdefaultencoding('utf8')
 
 def main():
+    """pass"""
     pass
 
-def download_artist(artistId, quiet=True):
-    """artistId passed in as a string."""
+def download_artist(artist_id, quiet=True):
+    """artist_id passed in as a string."""
 
-    album_res = search.get_artist_albums(artistId)['items']
+    album_res = search.get_artist_albums(artist_id)['items']
     tracks = []
     for album in album_res:
         tracks.append(search.get_album_tracks(album['uri'])['items'])
-    flatTracks = list(itertools.chain(*tracks))
-    for track in tqdm(flatTracks, desc='Downloading...', unit='track'):
+    flat_tracks = list(itertools.chain(*tracks))
+    for track in tqdm(flat_tracks, desc='Downloading...', unit='track'):
         try:
             download_track(search.make_track(search.get_track(track['uri'])), quiet)
-        except Exception as e:
+        except Exception as err:
             if not quiet:
-                print e
-        
-def download_album(albumId, quiet=True):
-    """albumId is passed in as a string."""
+                print err
 
-    tracks = search.get_album_tracks(albumId)['items']
+def download_album(album_id, quiet=True):
+    """album_id is passed in as a string."""
+
+    tracks = search.get_album_tracks(album_id)['items']
     for track in tqdm(tracks, desc='Downloading...', unit='track'):
         try:
             download_track(search.make_track(search.get_track(track['uri'])), quiet)
-        except Exception as e:
+        except Exception as err:
             if not quiet:
-                print e
+                print err
 
 
 def download_track(track, quiet=True):
@@ -58,15 +63,17 @@ def download_track(track, quiet=True):
     track_queri = track['track'] + ' - ' + track['artist']
     track_query = track_queri.replace(u'\xd6', 'O').replace(u'\xf4', 'o').decode('ascii', 'ignore')
 
-    video = ixm.search_videos(track_query)[0] # returns the first result of the track query to youtube
+    # returns the first result of the track query to youtube
+    video = ixm.search_videos(track_query)[0]
     if not quiet:
         print '[ORIGINAL QUERY]', track_query
         print '[YOUTUBE TITLE]: ', video[0]
         print '[YOUTUBE URL]: ', video[1]
     ixm.download_direct(video, filename, quiet) # download the video
 
-    
+
 def quote_argument(argument):
+    """format a string to pass to the shell"""
     return '%s' % (
         argument
         .replace('/', '\\/')

@@ -16,7 +16,8 @@ setup(
         'pyxm/spotify/ixm.py',
         'pyxm/spotify/search.py',
         'pyxm/metadata/folders.py',
-        'pyxm/metadata/id3tags.py'
+        'pyxm/metadata/id3tags.py',
+        'pyxm/metadata/cleanup.py'
         ],
     install_requires=[
         'youtube-dl',

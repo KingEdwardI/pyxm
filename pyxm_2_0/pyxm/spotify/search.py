@@ -1,21 +1,26 @@
 #!/usr/local/bin/python
+"""
+PyXm - Search functions
+Author : Edward Vetter-Drake
+Version : 1.5
+"""
 
-import spotipy, pprint, json
-sp = spotipy.Spotify()
-pp = pprint.PrettyPrinter(indent=1)
+import spotipy
+SP = spotipy.Spotify()
 
 def main():
+    """pass"""
     pass
 
 
-def artist_search(artist, limit_ = 10):
+def artist_search(artist_query, limit_=10):
     """
     search spotify for a list of artists
 
     :returns: a list of artist details
     :rtype: list
     """
-    results = sp.search(artist, type='artist', limit=limit_)
+    results = SP.search(artist_query, type='artist', limit=limit_)
     artists = results['artists']['items']
     artistlist = []
     for artist in artists:
@@ -28,14 +33,14 @@ def artist_search(artist, limit_ = 10):
     return artistlist
 
 
-def album_search(album, limit_ = 10):
+def album_search(album_query, limit_=10):
     """
     search spotify for a list of albums
 
     :returns: a list of album details
     :rtype: list
     """
-    results = sp.search(album, type='album', limit=limit_)
+    results = SP.search(album_query, type='album', limit=limit_)
     albums = results['albums']['items']
     albumlist = []
     for album in albums:
@@ -48,14 +53,14 @@ def album_search(album, limit_ = 10):
     return albumlist
 
 
-def track_search(track, limit_ = 10):
+def track_search(track_query, limit_=10):
     """
     search spotify for a list of tracks
 
     :returns: a list of track details
     :rtype: list
     """
-    results = sp.search(track, type='track', limit=limit_)
+    results = SP.search(track_query, type='track', limit=limit_)
     tracks = results['tracks']['items']
     tracklist = []
     for track in tracks:
@@ -77,22 +82,20 @@ def make_track(track, album=None):
         'uri': track['uri'] \
     })
 
-def get_artist_albums(artistId, limit_=20):
-    return sp.artist_albums(artistId, limit=limit_)
+def get_artist_albums(artist_id, limit_=20):
+    """make use of SP elsewhere"""
+    return SP.artist_albums(artist_id, limit=limit_)
 
-def get_album_tracks(albumId, limit_=50):
+def get_album_tracks(album_id, limit_=50):
     """
     :returns: tracks of the album
     :rtype:
     """
-    album_tracks = sp.album_tracks(albumId, limit=limit_)
-    return album_tracks
+    return SP.album_tracks(album_id, limit=limit_)
 
-def get_track(trackId):
-    return sp.track(trackId)
 
-def playlist_search(playlist):
-    pass
+#  def playlist_search(playlist):
+    #  pass
 
 
 if __name__ == '__main__':
