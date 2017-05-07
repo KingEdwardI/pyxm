@@ -19,6 +19,9 @@ def main():
             try:
                 if menu.helpmenu['-v']:
                     splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'], quiet=False)
+                elif menu.helpmenu['-x']:
+                    splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'])
+                    formatFolder()
                 else:
                     splat.download_artist(spit.artist_search(menu.helpmenu['QUERY'])[0]['uri'])
             except IndexError:
@@ -28,6 +31,9 @@ def main():
             try:
                 if menu.helpmenu['-v']:
                     splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'], quiet=False)
+                elif menu.helpmenu['-x']:
+                    splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'])
+                    formatFolder()
                 else:
                     splat.download_album(spit.album_search(menu.helpmenu['QUERY'])[0]['uri'])
             except IndexError:
