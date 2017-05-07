@@ -1,20 +1,23 @@
 #!/usr/local/bin/python
-"""
-PyXm - metadata tags
-Author : Edward Vetter-Drake
-Version : 0.5
-"""
-import os
-import eyed3
+import os, eyed3
 
-# TODO: disc_num, images, lyrics
+"""
+album
+album_artist
+album_type
+artist
+disc_num
+genre
+images
+lyrics
+title
+play_count
+"""
 
 def main():
-    """pass"""
     pass
 
 def bag_and_tag():
-    """get metadata from filename and write to file"""
     filenames = get_mp3_names()
     for name in filenames:
         tags = dict({\
@@ -35,14 +38,13 @@ def get_mp3_names(folder='./'):
 
     for _, __, files in os.walk(folder):
         mp3s = []
-        for name in files:
-            if 'mp3' in name:
-                mp3s.append(name)
+        for fn in files:
+            if 'mp3' in fn:
+                mp3s.append(fn)
         return mp3s
 
 
 def set_id3_tags(mp3filename, **kwargs):
-    """load mp3 file, set tags and save"""
 
     audiofile = eyed3.load(mp3filename)
     set_tags(audiofile, **kwargs)
@@ -50,7 +52,6 @@ def set_id3_tags(mp3filename, **kwargs):
 
 
 def set_tags(mp3data, **kwargs):
-    """set tags to mp3"""
 
     mp3data.tag.artist = unicode(kwargs['artist'])
     mp3data.tag.album = unicode(kwargs['album'])
@@ -58,7 +59,6 @@ def set_tags(mp3data, **kwargs):
 
 
 def get_tags(mp3data):
-    """get tags from mp3"""
 
     mp3tags = { \
             'artist' : mp3data.tag.artist,\
@@ -71,7 +71,6 @@ def get_tags(mp3data):
     return mp3tags
 
 def write_tags_to_file(mp3data, filename):
-    """save the file"""
 
     mp3data.tag.save(filename)
 

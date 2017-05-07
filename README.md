@@ -76,6 +76,8 @@ Commands:
 
 ## Running Tests
 
+## Contributing
+
 ## Disclaimer
 
 Downloading copyrighted material may be illegal in your country. Use at your own risk.
