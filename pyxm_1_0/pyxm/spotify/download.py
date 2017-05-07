@@ -3,31 +3,43 @@
 # Author : Edward Vetter-Drake
 # Version : 1.5
 from urllib import quote_plus as qp
-import os, sys, urllib
+import os, sys, urllib, itertools
 import ixm
 import search
 from tqdm import tqdm
+
+reload(sys)
+sys.setdefaultencoding('utf8')
 
 def main():
     pass
 
 def download_artist(artistId, quiet=True):
     """artistId passed in as a string."""
+
     album_res = search.get_artist_albums(artistId)['items']
-    albumDict = {}
+    tracks = []
     for album in album_res:
-        albumDict[album['name']] = []
-        download_album(album['uri'])
+        tracks.append(search.get_album_tracks(album['uri'])['items'])
+    flatTracks = list(itertools.chain(*tracks))
+    for track in tqdm(flatTracks, desc='Downloading...', unit='track'):
+        try:
+            download_track(search.make_track(search.get_track(track['uri'])), quiet)
+        except Exception as e:
+            if not quiet:
+                print e
         
 def download_album(albumId, quiet=True):
     """albumId is passed in as a string."""
 
     tracks = search.get_album_tracks(albumId)['items']
-    for track in tqdm(tracks, ascii=True, desc='Downloading...', unit='track'):
+    for track in tqdm(tracks, desc='Downloading...', unit='track'):
         try:
             download_track(search.make_track(search.get_track(track['uri'])), quiet)
         except Exception as e:
-            print e
+            if not quiet:
+                print e
+
 
 def download_track(track, quiet=True):
     """
@@ -41,8 +53,10 @@ def download_track(track, quiet=True):
     }
     """
 
-    filename = track['track'] + '_-_' + track['album'] + '_-_' + track['artist']
-    track_query = track['track'] + ' - ' + track['artist']
+    filename = quote_argument(track['track'] + '_-_' + track['album'] + '_-_' + track['artist'])
+
+    track_queri = track['track'] + ' - ' + track['artist']
+    track_query = track_queri.replace(u'\xd6', 'O').decode('ascii', 'ignore')
 
     video = ixm.search_videos(track_query)[0] # returns the first result of the track query to youtube
     if not quiet:
@@ -52,6 +66,15 @@ def download_track(track, quiet=True):
     ixm.download_direct(video, filename, quiet) # download the video
 
     
+def quote_argument(argument):
+    return '%s' % (
+        argument
+        .replace('/', '\\/')
+        .replace('\\', '\\\\')
+        .replace('"', '\\"')
+        .replace('$', '\\$')
+        .replace('`', '\\`')
+    )
 
 if __name__ == '__main__':
     main()

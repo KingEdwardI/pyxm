@@ -8,19 +8,6 @@ def main():
     pass
 
 
-def makeFileName(trackId):
-    """
-    create a filename based on the information from the ID of a track from Spotify
-
-    :returns: formatted output filename
-    :rtype: str
-    """
-    track = sp.track(trackId)
-    album = track['album']['name']
-    artist = track['artists'][0]['name']
-    return artist + ' - ' + album + ' - ' + track['name']
-
-
 def artist_search(artist, limit_ = 10):
     """
     search spotify for a list of artists

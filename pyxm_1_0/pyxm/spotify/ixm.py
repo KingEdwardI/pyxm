@@ -5,7 +5,6 @@
 import os, requests, re, sys, urllib2, json, subprocess
 from bs4 import BeautifulSoup as YumSauce
 from urllib import quote_plus as quip
-import unicodedata as unicorn
 
 import search
 
