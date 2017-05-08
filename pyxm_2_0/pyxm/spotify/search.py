@@ -75,19 +75,28 @@ def track_search(track_query, limit_=10):
 
     return tracklist
 
-def make_track(track, album=None):
+def make_track(track, album=None, artist=None):
     """
     build relevant track details
 
     :rtype: dict{}
     :keys: track, album, artist, uri
     """
-    return({ \
-        'track': track['name'], \
-        'album': album or track['album']['name'], \
-        'artist': track['album']['artists'][0]['name'], \
-        'uri': track['uri'] \
-    })
+    if album:
+        return({ \
+            'track': track['name'], \
+            'album': album, \
+            'artist': artist, \
+            'uri': track['uri'] \
+        })
+    else:
+        return({ \
+            'track': track['name'], \
+            'album': track['album']['name'], \
+            'artist': track['album']['artists'][0]['name'], \
+            'uri': track['uri'] \
+        })
+        
 
 def get_artist_albums(artist_id, limit_=20):
     """make use of SP elsewhere"""
@@ -99,6 +108,11 @@ def get_album_tracks(album_id, limit_=50):
     :rtype:
     """
     return SP.album_tracks(album_id, limit=limit_)
+
+
+def get_album(albumId):
+    return SP.album(albumId)
+
 
 def get_track(trackId):
     return SP.track(trackId)

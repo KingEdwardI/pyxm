@@ -73,6 +73,7 @@ def download_direct(url_path, filename, quiet=False, turbo=False):
         '--audio-quality', '0',
         '--output', str(filename) + '.%(ext)s',
         '--no-playlist',
+        '--max-filesize', '25m',
         'https://www.youtube.com' + str(url_path[1])
     ]
 

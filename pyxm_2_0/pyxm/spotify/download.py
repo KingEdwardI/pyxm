@@ -78,7 +78,7 @@ def quote_argument(argument):
     """format a string to pass to the shell"""
     return '%s' % (
         argument
-        .replace('/', '\/')
+        .replace('/', '.')
         .replace('\\', '\\\\')
         .replace('"', '\\"')
         .replace('$', '\\$')

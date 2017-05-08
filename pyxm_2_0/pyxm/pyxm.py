@@ -147,7 +147,10 @@ def artist_search():
     """artist search"""
 
     print 'search artist: ' + menu.helpmenu['QUERY']
-    if not spit.artist_search(menu.helpmenu['QUERY']):
+    if 'spotify:artist:' in menu.helpmenu['QUERY']:
+        albumlist = spit.get_artist_albums(menu.helpmenu['QUERY'])
+        PP.pprint(spit.make_albums(albumlist))
+    elif not spit.artist_search(menu.helpmenu['QUERY']):
         print 'no artists found matching that query'
     else:
         PP.pprint(spit.artist_search(menu.helpmenu['QUERY']))
@@ -157,10 +160,15 @@ def album_search():
     """album search"""
 
     print 'search album: ' + menu.helpmenu['QUERY']
-    if 'spotify:artist:' in menu.helpmenu['QUERY']:
-        albumlist = spit.get_artist_albums(menu.helpmenu['QUERY'])
-        print albumlist
-        PP.pprint(spit.make_albums(albumlist))
+    if 'spotify:album:' in menu.helpmenu['QUERY']:
+        track_res = spit.get_album_tracks(menu.helpmenu['QUERY'])['items']
+        album_ = spit.get_album(menu.helpmenu['QUERY'])['name']
+        artist_ = spit.get_album(menu.helpmenu['QUERY'])['artists'][0]['name']
+        tracklist = []
+        for track in track_res:
+            tracklist.append(spit.make_track(track, album=album_, artist=artist_))
+        PP.pprint(tracklist)
+
     elif not spit.album_search(menu.helpmenu['QUERY']):
         print 'No albums found matching that query'
     else:
