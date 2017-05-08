@@ -13,7 +13,7 @@ def main():
 def find_junk(folder='./'):
     """find anything that is not an mp3"""
     junk = []
-    bad_types = ['.part', '.webm']
+    bad_types = ['.part', '.webm', '.m4a']
     for _, __, files in os.walk(folder):
         for name in files:
             if any(word in name for word in bad_types):
