@@ -53,71 +53,6 @@ def download_menu():
         print 'please specify a download type'
 
 
-def search_menu():
-    """search menu"""
-
-    # Artist
-    if menu.helpmenu['-a']:
-        artist_search()
-    # Album
-    elif menu.helpmenu['-l']:
-        album_search()
-    # Track
-    elif menu.helpmenu['-t']:
-        print 'search track: ' + menu.helpmenu['QUERY']
-        print PP.pprint(spit.track_search(menu.helpmenu['QUERY']))
-    else:
-        print 'please specify a search type'
-
-
-def format_menu():
-    """format menu"""
-
-    # Id3 tags
-    if menu.helpmenu['-m']:
-        print 'formatting id3 tags...'
-        tagme.bag_and_tag()
-
-    # Folders
-    elif menu.helpmenu['-f']:
-        print 'creating folders and moving files...'
-        crease.make_and_move()
-
-    # Clean
-    elif menu.helpmenu['-c']:
-        print 'cleaning directory...'
-        broomstick.remove_junk()
-
-    # All
-    else:
-        if menu.helpmenu['-y']:
-            format_folder()
-        else:
-            format_ = raw_input('Are you sure you want to format everything? (y/N) >')
-            if format_.lower() == 'y':
-                format_folder()
-
-
-def artist_search():
-    """artist search"""
-
-    print 'search artist: ' + menu.helpmenu['QUERY']
-    if not spit.artist_search(menu.helpmenu['QUERY']):
-        print 'no artists found matching that query'
-    else:
-        PP.pprint(spit.artist_search(menu.helpmenu['QUERY']))
-
-
-def album_search():
-    """album search"""
-
-    print 'search album: ' + menu.helpmenu['QUERY']
-    if not spit.album_search(menu.helpmenu['QUERY']):
-        print 'No albums found matching that query'
-    else:
-        PP.pprint(spit.album_search(menu.helpmenu['QUERY']))
-
-
 def artist_download():
     """artist download"""
 
@@ -135,7 +70,7 @@ def artist_download():
 
         # Input Spotify URI
         elif menu.helpmenu['-i']:
-            splat.download_artist(spit.artist_search(query))
+            splat.download_artist(query)
             if menu.helpmenu['-x']:
                 format_folder()
 
@@ -190,6 +125,84 @@ def track_download():
     # Input Spotify URI
     elif menu.helpmenu['-i']:
         splat.download_track(spit.track_search(menu.helpmenu['QUERY']))
+
+
+def search_menu():
+    """search menu"""
+
+    # Artist
+    if menu.helpmenu['-a']:
+        artist_search()
+    # Album
+    elif menu.helpmenu['-l']:
+        album_search()
+    # Track
+    elif menu.helpmenu['-t']:
+        print 'search track: ' + menu.helpmenu['QUERY']
+        print PP.pprint(spit.track_search(menu.helpmenu['QUERY']))
+    else:
+        print 'please specify a search type'
+
+def artist_search():
+    """artist search"""
+
+    print 'search artist: ' + menu.helpmenu['QUERY']
+    if 'spotify:artist:' in menu.helpmenu['QUERY']:
+        albumlist = spit.get_artist_albums(menu.helpmenu['QUERY'])
+        PP.pprint(spit.make_albums(albumlist))
+    elif not spit.artist_search(menu.helpmenu['QUERY']):
+        print 'no artists found matching that query'
+    else:
+        PP.pprint(spit.artist_search(menu.helpmenu['QUERY']))
+
+
+def album_search():
+    """album search"""
+
+    print 'search album: ' + menu.helpmenu['QUERY']
+    if 'spotify:album:' in menu.helpmenu['QUERY']:
+        track_res = spit.get_album_tracks(menu.helpmenu['QUERY'])['items']
+        album_ = spit.get_album(menu.helpmenu['QUERY'])['name']
+        artist_ = spit.get_album(menu.helpmenu['QUERY'])['artists'][0]['name']
+        tracklist = []
+        for track in track_res:
+            tracklist.append(spit.make_track(track, album=album_, artist=artist_))
+        PP.pprint(tracklist)
+
+    elif not spit.album_search(menu.helpmenu['QUERY']):
+        print 'No albums found matching that query'
+    else:
+        PP.pprint(spit.album_search(menu.helpmenu['QUERY']))
+
+
+def format_menu():
+    """format menu"""
+
+    # Id3 tags
+    if menu.helpmenu['-m']:
+        print 'formatting id3 tags...'
+        tagme.bag_and_tag()
+
+    # Folders
+    elif menu.helpmenu['-f']:
+        print 'creating folders and moving files...'
+        crease.make_and_move()
+
+    # Clean
+    elif menu.helpmenu['-c']:
+        print 'cleaning directory...'
+        broomstick.remove_junk()
+
+    # All
+    else:
+        if menu.helpmenu['-y']:
+            format_folder()
+        else:
+            format_ = raw_input('Are you sure you want to format everything? (y/N) >')
+            if format_.lower() == 'y':
+                format_folder()
+
+
 
 def format_folder():
     """format the current working directory"""
