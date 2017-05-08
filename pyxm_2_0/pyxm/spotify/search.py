@@ -42,6 +42,14 @@ def album_search(album_query, limit_=10):
     """
     results = SP.search(album_query, type='album', limit=limit_)
     albums = results['albums']['items']
+
+    return make_albums(albums)
+
+
+def make_albums(albums):
+    if type(albums) == dict:
+        albums = albums['items']
+
     albumlist = []
     for album in albums:
         albumlist.append({
@@ -49,7 +57,6 @@ def album_search(album_query, limit_=10):
             'artist': album['artists'][0]['name'], \
             'uri': album['uri'] \
             })
-
     return albumlist
 
 

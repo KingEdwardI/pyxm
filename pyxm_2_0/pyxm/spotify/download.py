@@ -29,7 +29,9 @@ def download_artist(artist_id, quiet=True):
     flat_tracks = list(itertools.chain(*tracks))
     for track in tqdm(flat_tracks, desc='Downloading...', unit='track'):
         try:
-            download_track(search.make_track(search.get_track(track['uri'])), quiet)
+            track_details = search.get_track(track['uri'])
+            pyxm_track = search.make_track(track_details)
+            download_track(pyxm_track, quiet)
         except Exception as err:
             if not quiet:
                 print err
@@ -76,7 +78,7 @@ def quote_argument(argument):
     """format a string to pass to the shell"""
     return '%s' % (
         argument
-        .replace('/', '\\/')
+        .replace('/', '\/')
         .replace('\\', '\\\\')
         .replace('"', '\\"')
         .replace('$', '\\$')
