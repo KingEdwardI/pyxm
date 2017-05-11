@@ -40,34 +40,36 @@ class Window(QWidget):
     def keyPressEvent(self, event):
         key = event.key()
         if key == Qt.Key_Return:
-            albums = search_album(self.lineEdit.text())
-            self.setLayout(self.createLineItems(albums[0]))
+            album = search_album(self.lineEdit.text())
+            image = get_base64_image(album['images'][1]['url'])
+            self.pixmap.loadFromData(image)
+            self.pic.setPixmap(self.pixmap)
 
 
-    def createLineItems(self, albumData):
-        self.artistName = QLabel()
-        self.albumName = QLabel()
-        self.albumCover = QPixmap()
-        self.imgWrap = QLabel()
+    #  def createLineItems(self, albumData):
+        #  self.artistName = QLabel()
+        #  self.albumName = QLabel()
+        #  self.albumCover = QPixmap()
+        #  self.imgWrap = QLabel()
 
-        self.artistName.setText(albumData['artists'][0]['name'])
-        self.albumName.setText(albumData['name'])
-        self.albumCover.loadFromData(get_base64_image(albumData['images'][1]['url']))
-        self.imgWrap.setPixmap(self.albumCover)
+        #  self.artistName.setText(albumData['artists'][0]['name'])
+        #  self.albumName.setText(albumData['name'])
+        #  self.albumCover.loadFromData(get_base64_image(albumData['images'][1]['url']))
+        #  self.imgWrap.setPixmap(self.albumCover)
 
-        self.vBox.addWidget(self.imgWrap)
+        #  self.vBox.addWidget(self.imgWrap)
 
-        self.LineItem.addWidget(self.artistName)
-        self.LineItem.addWidget(self.albumName)
-        self.LineItem.addWidget(self.vBox)
+        #  self.LineItem.addWidget(self.artistName)
+        #  self.LineItem.addWidget(self.albumName)
+        #  self.LineItem.addWidget(self.vBox)
 
-        return self.LineItem
+        #  return self.LineItem
         
 
 def search_album(album_query):
 
     results = sp.search(album_query, type='album', limit=1)
-    return results['albums']['items']
+    return results['albums']['items'][0]
 
 
 
