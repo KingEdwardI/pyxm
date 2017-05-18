@@ -79,6 +79,7 @@ def quote_argument(argument):
     return '%s' % (
         argument
         .replace('/', '.')
+        .replace('?', '')
         .replace('\\', '\\\\')
         .replace('"', '\\"')
         .replace('$', '\\$')
