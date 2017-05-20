@@ -2,12 +2,6 @@
 
 Batch download music from youtube utilizing the spotify api
 
-### Upcoming features
-
-#### Version 2 :
-
-* escape characters for bash.
-
 #### Version 3 : User Interface
 
 * v3.0 : user interface
@@ -33,15 +27,21 @@ Formatting
 ## Getting Started
 
 ### Prerequisites
+
 * Python
 
 ### Installation
 
-`git clone https://github.com/KingEdwardI/pyxm $HOME/.pyxm`
+##### auto
+
+`./install.sh`
+
+##### manual
 
 `pip install -r $HOME/.pyxm/requirements.txt`
 
 `alias pyxm=$HOME/.pyxm/pyxm_2_0/pyxm/pyxm.py`
+
 
 ## Usage
 
@@ -83,6 +83,9 @@ Commands:
 ## Running Tests
 
 ## Contributing
+
+For the time being just use the app and submit issues.
+
 
 ## Disclaimer
 
