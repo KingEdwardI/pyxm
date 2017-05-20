@@ -105,6 +105,7 @@ Downloading copyrighted material may be illegal in your country. Use at your own
 ## License
 
 PyXm - Utilize the spotify API to download songs from youtube
+
 Copyright (C) 2017 Edward Vetter-Drake
 
 This file is part of PyXm
