@@ -1,27 +1,15 @@
-## PyXm
+# Deprecation Announcement
 
-Batch download music from youtube utilizing the spotify api
+Sometime recently Spotify has started requiring an API key.
+Due to this I'm forced to rewrite my search functions utilizing something else.
+Plenty other resources I can use, but for now nothing will work in the state that this project is in.
+
+
+## PyXm
 
 #### Version 3 : User Interface
 
 * v3.0 : user interface
-
-## Version 2 : Improved CLI + Spotify + Formatting
-Improved CLI 
-
-  * help menu
-  * progress bar
-
-Spotify API
-
-  * No need for API key
-  * searches are more reliable
-
-Formatting
-
-  * Downloaded files have formatted names
-  * con create folders based on albums
-  * can take id3 metadata from filenames
 
 
 ## Getting Started
