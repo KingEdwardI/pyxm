@@ -2,6 +2,5 @@ youtube-dl
 BeautifulSoup4
 requests
 eyed3
-spotipy
 docopt
 tqdm
