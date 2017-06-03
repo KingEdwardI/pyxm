@@ -1,0 +1,13 @@
+track download needs a progress bar
+when downloading an artist, create a list of the relevant albums - without duplicate albums or other artists. [{Improve Album-list maker}]
+ignore Live unless specified [{Improve Track-lise maker}]
+how to handle "Special Edition" or "Deluxe Edition" - take the one with the most? - take all (this is a little messy)
+get ALL of the damn albums >.>
+ALL CAPS -> Title Case
+download album from uri
+Formatting DANGER ZONE
+more string sanitation
+implement iTunes API
+album art
+
+spotify decided to require an api key, so re-writing for public use again.
